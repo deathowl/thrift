@@ -17,34 +17,18 @@
 # under the License.
 #
 
-@GLOBAL_HEADER_MK@
+DESTDIR ?= /
 
-@PRODUCT_MK@
+all:
 
-SUBDIRS = .
+all-local:
+	$(thrift_home)/bin/thrift --gen go $(top_srcdir)/if/fb303.thrift
+	mv gen-go/fb303/* .
 
-if WITH_CPP
-SUBDIRS += cpp
-endif
 
-if WITH_JAVA
-SUBDIRS += java
-endif
+clean:	clean-local
 
-if WITH_PHP
-SUBDIRS += php
-endif
+clean-local:
+	$(RM) -rf gen-go
 
-if WITH_PYTHON
-SUBDIRS += py
-endif
-
-if WITH_GO
-SUBDIRS += go
-endif
-
-BUILT_SOURCES =
-
-clean-local: clean-common
-
-@GLOBAL_FOOTER_MK@
+check-local: all

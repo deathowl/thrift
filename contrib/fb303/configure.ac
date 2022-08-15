@@ -114,9 +114,18 @@ if test "$with_python" = "yes"; then
 fi
 AM_CONDITIONAL(WITH_PYTHON, [test "$have_python" = "yes"])
 
+AX_THRIFT_LIB(go, [GO], yes)
+if test "$with_go" = "yes"; then
+  AC_PATH_PROG([GO], [go])
+  if test "x$GO" != "x" && test "x$GO" != "x:" ; then
+    have_go="yes"
+  fi
+fi
+AM_CONDITIONAL(WITH_GO, [test "$have_go" = "yes"])
+
 # Generates Makefile from Makefile.am. Modify when new subdirs are added.
 # Change Makefile.am also to add subdirectly.
-AC_CONFIG_FILES(Makefile cpp/Makefile py/Makefile)
+AC_CONFIG_FILES(Makefile cpp/Makefile py/Makefile go/Makefile)
 
 # Check for headers
 AC_CHECK_HEADERS([inttypes.h])
@@ -137,6 +146,7 @@ echo "Building C++ Library ......... : $have_cpp"
 echo "Building Java Library ........ : $have_java"
 echo "Building Python Library ...... : $have_python"
 echo "Building PHP Library ......... : $have_php"
+echo "Building Go Library ......... : $have_go"
 
 
 #
